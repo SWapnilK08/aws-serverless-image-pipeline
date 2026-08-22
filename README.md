@@ -3,7 +3,7 @@
 A mid-level, event-driven cloud architecture that automatically processes user-uploaded images to detect visual labels and log metadata in real time without managing servers.
 
 ## 🔗 Project Links
-* **Live Demo Interface:** https://YOUR_GITHUB_USERNAME.github.io/aws-serverless-image-pipeline/
+* **Live Demo Interface:** https://SWapnilK08.github.io/aws-serverless-image-pipeline/
 * **Source Code Repository:** https://github.com
 
 ---
