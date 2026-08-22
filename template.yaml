@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Mid-level Serverless Image Processing Pipeline
+
+Resources:
+  # The S3 Bucket where user photos are uploaded
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: midlevel-cloud-upload-bucket
+
+  # The NoSQL database table to store parameters
+  MetadataTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: ImageMetadata
+      PrimaryKey:
+        Name: ImageID
+        Type: String
+
+  # The SNS notification topic
+  AlertNotificationTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: ImageAlerts
+
+  # The core Lambda execution resource
+  ImageProcessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.11
+      Policies:
+        - AmazonRekognitionReadOnlyAccess
+        - AmazonDynamoDBFullAccess
+        - AmazonSNSFullAccess
+        - AmazonS3ReadOnlyAccess
+      Events:
+        NewImageEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref UploadBucket
+            Events: s3:ObjectCreated:*
