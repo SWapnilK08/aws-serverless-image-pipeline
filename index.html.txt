@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart Image Analyzer</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-between p-4 md:p-8 font-sans">
+
+    <!-- Header Section -->
+    <header class="w-full max-w-4xl text-center my-4">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 tracking-tight">
+            Cloud Analyzer
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base mt-2">Serverless Automated Computer Vision Pipeline</p>
+    </header>
+
+    <!-- Main Responsive Dashboard Grid -->
+    <main class="w-full max-w-4xl bg-slate-800/50 backdrop-blur-md rounded-2xl p-6 md:p-8 shadow-2xl border border-slate-700/50 flex-grow flex flex-col md:grid md:grid-cols-2 gap-6 items-center">
+        
+        <!-- Column 1: Upload Card Interface -->
+        <div class="w-full flex flex-col items-center justify-center border-2 border-dashed border-slate-600 hover:border-cyan-500 transition-colors rounded-xl p-8 cursor-pointer group bg-slate-800" id="drop-zone">
+            <svg class="w-12 h-12 text-slate-400 group-hover:text-cyan-400 transition-colors mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <p class="text-sm md:text-base font-semibold text-slate-300">Drag & Drop Image Here</p>
+            <p class="text-xs text-slate-500 mt-1">Supports PNG, JPG, or WEBP up to 5MB</p>
+            <input type="file" id="file-input" class="hidden" accept="image/*" />
+        </div>
+
+        <!-- Column 2: Extracted Analysis Metadata Real-time Feedback -->
+        <div class="w-full h-full flex flex-col justify-between bg-slate-900/60 rounded-xl p-6 border border-slate-700/30 min-h-[220px]">
+            <div>
+                <h3 class="text-lg font-bold text-slate-200 border-b border-slate-700 pb-2 mb-3 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> Pipeline Live Stream Output
+                </h3>
+                <div id="results-display" class="space-y-2 text-sm text-slate-400">
+                    <p class="italic text-slate-500">Awaiting payload file upload request...</p>
+                </div>
+            </div>
+            
+            <!-- Real-time processing feedback status bar element -->
+            <div id="status-badge" class="mt-4 text-xs font-semibold px-3 py-1.5 rounded-md bg-slate-800 text-slate-400 inline-block self-start border border-slate-700">
+                System Status: Ready
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Copyright -->
+    <footer class="w-full text-center text-xs text-slate-600 mt-6 tracking-wide">
+        Cloud Engineering Portfolio Project • Open Source Build
+    </footer>
+
+    <!-- Interactive Logic Controller JavaScript Mockup -->
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const resultsDisplay = document.getElementById('results-display');
+        const statusBadge = document.getElementById('status-badge');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => handleUploadMock(e.target.files[0]));
+
+        function handleUploadMock(file) {
+            if(!file) return;
+            statusBadge.className = "mt-4 text-xs font-semibold px-3 py-1.5 rounded-md bg-amber-500/10 text-amber-400 inline-block self-start border border-amber-500/30 animate-pulse";
+            statusBadge.innerText = "System Status: Executing Trigger Process...";
+            resultsDisplay.innerHTML = `<p class='text-cyan-400 font-medium'>Uploading file: \${file.name}...</p>`;
+            
+            setTimeout(() => {
+                statusBadge.className = "mt-4 text-xs font-semibold px-3 py-1.5 rounded-md bg-emerald-500/10 text-emerald-400 inline-block self-start border border-emerald-500/30";
+                statusBadge.innerText = "System Status: Succeeded";
+                resultsDisplay.innerHTML = `
+                    <div class="flex justify-between border-b border-slate-800 py-1"><span class="text-slate-500">Image ID:</span> <span class="font-mono text-slate-300">\${file.name}</span></div>
+                    <div class="flex justify-between border-b border-slate-800 py-1"><span class="text-slate-500">S3 State:</span> <span class="text-emerald-400 font-medium">Uploaded (200 OK)</span></div>
+                    <div class="flex justify-between border-b border-slate-800 py-1"><span class="text-slate-500">DynamoDB Entry:</span> <span class="text-cyan-400 font-medium">Persisted</span></div>
+                    <div class="mt-3"><span class="text-slate-500 block mb-1">Extracted Vision Labels:</span>
+                        <div class="flex flex-wrap gap-1.5 mt-1">
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">Modern Technology</span>
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">Digital Display</span>
+                            <span class="bg-slate-800 border border-slate-700 text-slate-300 px-2 py-0.5 rounded text-xs">Automated Network</span>
+                        </div>
+                    </div>
+                `;
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
